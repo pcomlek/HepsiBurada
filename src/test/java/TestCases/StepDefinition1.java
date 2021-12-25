@@ -1,6 +1,6 @@
 package TestCases;
 
-import Constant.ScrollToPage;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -8,15 +8,14 @@ import net.jodah.failsafe.internal.util.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static Constant.HBConstants.*;
-import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 
-public class HBTestCase1 {
+public class StepDefinition1 {
 
     WebDriver driver ;
     WebElement element;
@@ -25,7 +24,6 @@ public class HBTestCase1 {
         return driver.findElement(by);
     }
 
-    ScrollToPage s = new ScrollToPage();
 
         @Given("go to Hepsiburada.com login page")
         public void go_to_hepsiburada_com_login_page () throws InterruptedException {
@@ -42,11 +40,9 @@ public class HBTestCase1 {
             driver.manage().window().maximize();
             driver.get("https://www.hepsiburada.com/");
 
+
             System.out.println("HepsiBurada sitesi açıldı");
 
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-
-            js.executeScript("window.scrollBy(0,1000)");
 
         }
 
@@ -83,8 +79,8 @@ public class HBTestCase1 {
         @When("click on login button3")
         public void click_on_login_button3 () {
 
-            WebElement Login = findElement(GIRIS);
-            Login.click();
+            WebElement Giris_email = findElement(GIRIS);
+            Giris_email.click();
             System.out.println("Giriş yap butonuna basıldı.");
 
         }
@@ -119,7 +115,7 @@ public class HBTestCase1 {
             if (Sepetim != null) {
                 UrunAra.click();
                 UrunAra.clear();
-                UrunAra.sendKeys("Baby Alive");
+                UrunAra.sendKeys("Madeleb Krem");
                 System.out.println("Search bara tıklandı, ürün girildi.");
             } else
                 Assert.isTrue(Sepetim == null, "HB ansayfası açılamadı");
@@ -140,32 +136,43 @@ public class HBTestCase1 {
         public void select_first_product () throws InterruptedException {
             WebElement ilkürün = driver.findElement(FIRSTPRDCT);
             ilkürün.click();
-            Thread.sleep(5000);
+            Thread.sleep(1000);
             System.out.println("ilk ürün seçildi.");
 
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-
-            js.executeScript("window.scrollBy(0,1000)");
-
-            System.out.println("Scroll yapıldı.");
-
+        }
+        @And("open a new tab")
+        public void openANewTab() throws InterruptedException {
+            ArrayList<String> tabs2 = new ArrayList<String>(driver.getWindowHandles());
+            driver.switchTo().window(tabs2.get(1));
+            Thread.sleep(5000);
+            System.out.println("yeni sekmeye geçti.");
         }
 
         @Then("add to cart")
         public void add_to_cart () throws InterruptedException {
-            Thread.sleep(2000);
-            WebElement sepeteekle = findElement(SS);
-            sepeteekle.click();
-            Thread.sleep(5000);
-            System.out.println("Ürün sepete eklendi.");
+
+
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0,250)");
+            WebElement urunisim = findElement(PRDCTNAME);
+            if(urunisim!= null) {
+                WebElement sepeteekle = findElement(SEPETEEKLE);
+                sepeteekle.click();
+                sleep(5000);
+                System.out.println("Ürün sepete eklendi.");
+            }
+            else
+                Assert.isTrue(urunisim ==null ,"ürün detay sayfası açılamadı.");
 
         }
-        @Then("close the order page")
+
+
+    @Then("close the order page")
         public void close_the_order_page () throws InterruptedException {
             WebElement ekranıkapat = findElement(CLOSETAB);
             ekranıkapat.click();
             System.out.println("ekran kapatıldı.");
-            Thread.sleep(2000);
+            Thread.sleep(5000);
 
         }
         @Then("add to cart the product from different seller")
@@ -177,15 +184,18 @@ public class HBTestCase1 {
         }
         @Then("go to cart")
         public void go_to_cart () throws InterruptedException {
-            WebElement SepeteGit = findElement(SEPETEGIT);
-            WebElement IkiUrun = findElement(IKIURUN);
+            WebElement SepeteGit = findElement(SEPETEGIT1);
             SepeteGit.click();
+            Thread.sleep(3000);
+            WebElement IkiUrun = findElement(IKIURUN);
             Assert.isTrue(IkiUrun != null, "iki farklı satıcıdan ürünler sepete eklendi.");
             System.out.println("Sepete 2 farklı satıcıdan ürünler eklendi.");
             Thread.sleep(5000);
 
-            driver.quit();
+
 
         }
+
+
 
 }

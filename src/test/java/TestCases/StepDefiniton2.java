@@ -9,20 +9,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 
+
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static Constant.HBConstants.*;
 
-public class HBTestCase2 {
+public class StepDefiniton2 {
 
     WebDriver driver;
     public WebElement findElement(By by){
         return driver.findElement(by);
     }
 
-    Actions action = new Actions(driver);
 
     @Given("Go to Hepsiburada.com homepage")
     public void go_to_hepsiburada_com_homepage() {
@@ -39,7 +39,6 @@ public class HBTestCase2 {
         driver.manage().window().maximize();
         driver.get("https://www.hepsiburada.com/");
 
-        Actions action = new Actions(driver);
 
         System.out.println("HepsiBurada sitesi açıldı");
 
@@ -49,7 +48,7 @@ public class HBTestCase2 {
 
         Thread.sleep(5000);
         WebElement MuzikKategori = findElement(KATEGORI);
-        action.moveToElement(MuzikKategori).perform();
+        MuzikKategori.click();
         System.out.println("kategori sayfası açıldı.");
 
     }
@@ -63,21 +62,30 @@ public class HBTestCase2 {
     }
     @When("click first product")
     public void click_firs_product() throws InterruptedException {
+
         WebElement ilkürün = findElement(FIRSTPRDCT);
         ilkürün.click();
         Thread.sleep(5000);
+        System.out.println("ilk ürünü seçti.");
 
     }
     @Then("add to cart the product")
     public void add_to_cart_the_product() throws InterruptedException {
+        ArrayList<String> tabs2 = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs2.get(1));
+        Thread.sleep(5000);
+        System.out.println("yeni sekmeye geçti.");
+
         WebElement sepeteekle = driver.findElement(SEPETEEKLE);
         sepeteekle.click();
-        Thread.sleep(5000);
+        Thread.sleep(3000);
         System.out.println("Ürün sepete eklendi.");
 
-        WebElement SepeteGit = findElement(SEPETEGIT);
+        WebElement SepeteGit = findElement(SEPETIM);
         SepeteGit.click();
-        Assert.isTrue(SEPETDETAY == null, "Sepetim sayfası açılamadı.");
+        Thread.sleep(3000);
+        Assert.isTrue(SEPETDETAY != null, "Sepetim sayfası açıldı.");
+        System.out.println("sepet kontrol edildi.");
 
 
 
