@@ -18,7 +18,7 @@ import static java.lang.Thread.sleep;
 public class StepDefinition1 {
 
     WebDriver driver ;
-    WebElement element;
+
 
     public WebElement findElement(By by){
         return driver.findElement(by);
@@ -180,7 +180,7 @@ public class StepDefinition1 {
             WebElement digersaticidanekle = findElement(DGRSATICIDANEKLE);
             digersaticidanekle.click();
             System.out.println("ürün diğer satıcıdan eklendi.");
-            Thread.sleep(3000);
+            Thread.sleep(5000);
         }
         @Then("go to cart")
         public void go_to_cart () throws InterruptedException {

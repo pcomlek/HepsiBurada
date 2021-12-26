@@ -78,7 +78,7 @@ public class StepDefiniton2 {
 
         WebElement sepeteekle = driver.findElement(SEPETEEKLE);
         sepeteekle.click();
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         System.out.println("Ürün sepete eklendi.");
 
         WebElement SepeteGit = findElement(SEPETIM);

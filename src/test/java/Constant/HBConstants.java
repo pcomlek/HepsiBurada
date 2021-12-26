@@ -28,4 +28,9 @@ public class HBConstants {
     public static final By SEPETDETAY = By.xpath("//*[@id='basket-item-count'][text()='1']"); // sepete detay sayfadaki 'x ürün' metni
     public static final By SEPETEGIT2 = By.xpath("//a[@href = 'https://checkout.hepsiburada.com/']"); //ürün eklendikten sonra sağ üstte cıkan pop up
 
+    //case 3 teslimat
+    public static  final By ALSVRSTAMAMLA = By.id("continue_step_btn");
+    public static final By STNDRTTSLMT = By.cssSelector("div.tooltipText_1lbsy");
+    public static final By KARGO = By.cssSelector("div.cargo_1Nqun");
+    public static final By TUTAR = By.xpath("//div[@class='price_1D8UZ'][text()='12,99']");
 }
